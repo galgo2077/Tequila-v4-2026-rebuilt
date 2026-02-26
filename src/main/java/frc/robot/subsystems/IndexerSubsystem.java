@@ -21,9 +21,9 @@ public class IndexerSubsystem extends SubsystemBase {
     public void roller(boolean rollerIN, boolean rollerOUT) {
 
         if (rollerIN) {
-            rollerMotor.setControl(new DutyCycleOut(0.9));
+            rollerMotor.setControl(new DutyCycleOut(IndexerConstants.kRollerSpeedPositive));
         } else if (rollerOUT) {
-            rollerMotor.setControl(new DutyCycleOut(-0.9));
+            rollerMotor.setControl(new DutyCycleOut(IndexerConstants.kRollerSpeedNegative));
         } else {
             rollerMotor.setControl(new DutyCycleOut(0.0));
         }
@@ -34,18 +34,18 @@ public class IndexerSubsystem extends SubsystemBase {
 
         // Right motor
         if (RightRollerIN) {
-            indexerMotorRight.setControl(new DutyCycleOut(0.9));
+            indexerMotorRight.setControl(new DutyCycleOut(IndexerConstants.kIndexerSpeedPositive));
         } else if (RightRollerOUT) {
-            indexerMotorRight.setControl(new DutyCycleOut(-0.9));
+            indexerMotorRight.setControl(new DutyCycleOut(IndexerConstants.kIndexerSpeedNegative));
         } else {
             indexerMotorRight.setControl(new DutyCycleOut(0.0));
         }
 
         // Left motor
         if (LeftRollerIN) {
-            indexerMotorLeft.setControl(new DutyCycleOut(0.9));
+            indexerMotorLeft.setControl(new DutyCycleOut(IndexerConstants.kIndexerSpeedPositive));
         } else if (LeftRollerOUT) {
-            indexerMotorLeft.setControl(new DutyCycleOut(-0.9));
+            indexerMotorLeft.setControl(new DutyCycleOut(IndexerConstants.kIndexerSpeedNegative));
         } else {
             indexerMotorLeft.setControl(new DutyCycleOut(0.0));
         }

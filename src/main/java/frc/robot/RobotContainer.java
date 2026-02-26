@@ -9,6 +9,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.intakeSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.feederSubsystem;
+import frc.robot.subsystems.fixedTurretSubsystem;
+import frc.robot.subsystems.mobileTurretSubsystem;
+import frc.robot.subsystems.climberSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -21,6 +25,9 @@ public class RobotContainer {
   private final intakeSubsystem m_intakeSubsystem = new intakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final feederSubsystem m_feederSubsystem = new feederSubsystem();
+  private final fixedTurretSubsystem m_fixedTurretSubsystem = new fixedTurretSubsystem();
+  private final mobileTurretSubsystem m_mobileTurretSubsystem = new mobileTurretSubsystem();
+  private final climberSubsystem m_climberSubsystem = new climberSubsystem();
 
   // Controller
   private final CommandXboxController m_driverController = new CommandXboxController(

@@ -19,9 +19,9 @@ public class feederSubsystem extends SubsystemBase {
     public void feeder(boolean feederIN, boolean feederOUT) {
 
         if (feederIN) {
-            feederMotor.setControl(new DutyCycleOut(0.9));
+            feederMotor.setControl(new DutyCycleOut(FeederConstants.kFeederSpeedPositive));
         } else if (feederOUT) {
-            feederMotor.setControl(new DutyCycleOut(-0.9));
+            feederMotor.setControl(new DutyCycleOut(FeederConstants.kFeederSpeedNegative));
         } else {
             feederMotor.setControl(new DutyCycleOut(0.0));
         }

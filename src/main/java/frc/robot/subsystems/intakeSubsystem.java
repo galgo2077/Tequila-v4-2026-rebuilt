@@ -18,9 +18,9 @@ public class intakeSubsystem extends SubsystemBase {
 
   public void intake(boolean intakeIN, boolean outakeOUT) {
     if (intakeIN) {
-      IntakeMotor.setControl(new DutyCycleOut(0.9));
+      IntakeMotor.setControl(new DutyCycleOut(IntakeConstants.kIntakeSpeedPositive));
     } else if (outakeOUT) {
-      IntakeMotor.setControl(new DutyCycleOut(-0.9));
+      IntakeMotor.setControl(new DutyCycleOut(IntakeConstants.kIntakeSpeedNegative));
     } else {
       IntakeMotor.setControl(new DutyCycleOut(0.0));
     }
@@ -28,9 +28,9 @@ public class intakeSubsystem extends SubsystemBase {
 
   public void Extensor(boolean extensorIN, boolean extensorOUT) {
     if (extensorIN) {
-      ExtensorMotor.setControl(new DutyCycleOut(0.9));
+      ExtensorMotor.setControl(new DutyCycleOut(IntakeConstants.kExtensorSpeedPositive));
     } else if (extensorOUT) {
-      ExtensorMotor.setControl(new DutyCycleOut(-0.9));
+      ExtensorMotor.setControl(new DutyCycleOut(IntakeConstants.kExtensorSpeedNegative));
     } else {
       ExtensorMotor.setControl(new DutyCycleOut(0.0));
     }

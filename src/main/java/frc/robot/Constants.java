@@ -53,4 +53,46 @@ public final class Constants {
     public static final double kFeederSpeedNegative = -0.9;
   }
 
+  public static class fixedTurretConstants {
+
+    // ids
+    public static final int kAngleMotorFixed = 8;
+    public static final int kShooterFixedMotor = 9;
+
+    // speeds
+    public static final double kAngleSpeedPositiveFixed = 0.9;
+    public static final double kAngleSpeedNegativeFixed = -0.9;
+
+    public static final double kShooterSpeedPositiveFixed = 0.9;
+    public static final double kShoterSpeedNegativeFixed = -0.9;
+  }
+
+  public static class mobileTurretConstants {
+
+    // ids
+    public static final int kAngleMotorMobile = 10;
+    public static final int kShooterMotorMobile = 11;
+    public static final int kTurretMotorMobile = 12;
+
+    // speeds
+    public static final double kAngleSpeedPositiveMobile = 0.9;
+    public static final double kAngleSpeedNegativeMobile = -0.9;
+
+    public static final double kShooterSpeedPositiveMobile = 0.9;
+    public static final double kShooterSpeedNegativeMobile = -0.9;
+
+    public static final double kTurretSpeedPositiveMobile = 0.9;
+    public static final double kTurretSpeedNegativeMobile = -0.9;
+  }
+
+  public static class climberConstants {
+
+    // ids
+    public static final int kClimberMotor = 13;
+
+    // speeds
+    public static final double kClimberSpeedPositive = 0.9;
+    public static final double kClimberSpeedNegative = -0.9;
+  }
+
 }
