@@ -22,13 +22,16 @@ public class RobotContainer {
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final feederSubsystem m_feederSubsystem = new feederSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // Controller
   private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
+      OperatorConstants.kDriverControllerChasis);
+  private final CommandXboxController m_operatorController = new CommandXboxController(
+      OperatorConstants.kDriverControllerIntake);
 
   // Constructor
   public RobotContainer() {
-    // Configure the trigger bindings
+    // Configure the swerve here
+
     configureBindings();
   }
 
