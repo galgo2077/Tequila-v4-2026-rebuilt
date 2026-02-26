@@ -17,7 +17,7 @@ public class IndexerSubsystem extends SubsystemBase {
         // Constructor
     }
 
-    // Este le pasa las pelotas al indexer
+    // Passes balls to indexer
     public void roller(boolean rollerIN, boolean rollerOUT) {
 
         if (rollerIN) {
@@ -29,10 +29,10 @@ public class IndexerSubsystem extends SubsystemBase {
         }
     }
 
-    // Este es el indexer
+    // Indexer control
     public void index(boolean RightRollerIN, boolean RightRollerOUT, boolean LeftRollerIN, boolean LeftRollerOUT) {
 
-        // controles para el motor derecho
+        // Right motor
         if (RightRollerIN) {
             indexerMotorRight.setControl(new DutyCycleOut(0.9));
         } else if (RightRollerOUT) {
@@ -41,7 +41,7 @@ public class IndexerSubsystem extends SubsystemBase {
             indexerMotorRight.setControl(new DutyCycleOut(0.0));
         }
 
-        // controles para el motor izquierdo
+        // Left motor
         if (LeftRollerIN) {
             indexerMotorLeft.setControl(new DutyCycleOut(0.9));
         } else if (LeftRollerOUT) {
@@ -57,20 +57,19 @@ public class IndexerSubsystem extends SubsystemBase {
         indexerMotorLeft.setControl(new DutyCycleOut(0.0));
     }
 
-    /// Aca empieza Mi Comando
-
+    // Command factory
     public Command runIndexerCommand(BooleanSupplier rollerIN, BooleanSupplier rollerOUT, BooleanSupplier RightRollerIN,
             BooleanSupplier RightRollerOUT, BooleanSupplier LeftRollerIN, BooleanSupplier LeftRollerOUT) {
 
         return this.run(() -> {
 
-            roller(rollerIN.getAsBoolean(), rollerOUT.getAsBoolean());// se encarga del roller
+            roller(rollerIN.getAsBoolean(), rollerOUT.getAsBoolean()); // Controls roller
 
             index(RightRollerIN.getAsBoolean(), RightRollerOUT.getAsBoolean(), LeftRollerIN.getAsBoolean(),
-                    LeftRollerOUT.getAsBoolean());// se encarga del indexer
+                    LeftRollerOUT.getAsBoolean()); // Controls indexer
 
         }).finallyDo(() -> {
-            stop();// para que se paren
+            stop(); // Stop motors
         });
 
     }

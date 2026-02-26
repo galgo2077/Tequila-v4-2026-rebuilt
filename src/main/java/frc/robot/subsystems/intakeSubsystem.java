@@ -41,19 +41,18 @@ public class intakeSubsystem extends SubsystemBase {
     ExtensorMotor.setControl(new DutyCycleOut(0.0));
   }
 
-  /// Aca empieza Mi Comando
-
+  // Command factory
   public Command runIntakeExtensorCommand(BooleanSupplier intakeIn, BooleanSupplier intakeOut,
       BooleanSupplier extensorIn, BooleanSupplier extensorOut) {
 
     return this.run(() -> {
 
-      intake(intakeIn.getAsBoolean(), intakeOut.getAsBoolean());// se encarga intake y outake
+      intake(intakeIn.getAsBoolean(), intakeOut.getAsBoolean()); // Controls intake
 
-      Extensor(extensorIn.getAsBoolean(), extensorOut.getAsBoolean());// se encarga extensor y extensorOut
+      Extensor(extensorIn.getAsBoolean(), extensorOut.getAsBoolean()); // Controls extensor
 
     }).finallyDo(() -> {
-      stop();// para que se paren
+      stop(); // Stop motors
     });
 
   }

@@ -15,7 +15,7 @@ public class feederSubsystem extends SubsystemBase {
         // Constructor
     }
 
-    // Este le pasa las pelotas al indexer
+    // Passes balls to indexer
     public void feeder(boolean feederIN, boolean feederOUT) {
 
         if (feederIN) {
@@ -31,16 +31,15 @@ public class feederSubsystem extends SubsystemBase {
         feederMotor.setControl(new DutyCycleOut(0.0));
     }
 
-    /// Aca empieza Mi Comando
-
+    // Command factory
     public Command runFeederCommand(BooleanSupplier feederIN, BooleanSupplier feederOUT) {
 
         return this.run(() -> {
 
-            feeder(feederIN.getAsBoolean(), feederOUT.getAsBoolean());// se encarga del feeder
+            feeder(feederIN.getAsBoolean(), feederOUT.getAsBoolean()); // Controls feeder
 
         }).finallyDo(() -> {
-            stop();// para que se paren
+            stop(); // Stop motors
         });
 
     }
