@@ -9,10 +9,15 @@ import java.util.function.BooleanSupplier;
 
 public class climberSubsystem extends SubsystemBase {
 
+  // AdvantageScope publishers
+
   private final TalonFX climberMotor = new TalonFX(climberConstants.kClimberMotor);
 
   public climberSubsystem() {
-    // Constructor
+    // Constructor para llamr advantage scope y ajustes motores.
+
+    // Initialize AdvantageScope publishers
+
   }
 
   public void climber(boolean climberUP, boolean climberDOWN) {

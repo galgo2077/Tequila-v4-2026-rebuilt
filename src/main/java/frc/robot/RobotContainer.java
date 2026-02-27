@@ -44,12 +44,13 @@ public class RobotContainer {
 
   // Defines trigger->command mappings
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    // .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // Climber controls: D-Pad Up makes climber go UP, D-Pad Down makes climber go
+    // DOWN
+    m_operatorController.povUp().whileTrue(
+        m_climberSubsystem.runClimberCommand(() -> true, () -> false));
 
-    // Schedule exampleMethodCommand on B button press
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_operatorController.povDown().whileTrue(
+        m_climberSubsystem.runClimberCommand(() -> false, () -> true));
   }
 
   // Returns the autonomous command

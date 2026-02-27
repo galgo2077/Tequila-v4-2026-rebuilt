@@ -24,6 +24,16 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
   }
 
+  @Override
+  public void robotInit() {
+    // Start WPILib Data Log Manager to record SmartDashboard/NetworkTables for
+    // AdvantageScope
+    edu.wpi.first.wpilibj.DataLogManager.start();
+
+    // Start CTRE SignalLogger for Phoenix 6 motors
+    com.ctre.phoenix6.SignalLogger.start();
+  }
+
   // Called periodically (20ms) regardless of mode
   @Override
   public void robotPeriodic() {
