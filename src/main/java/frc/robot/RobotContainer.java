@@ -44,13 +44,64 @@ public class RobotContainer {
 
   // Defines trigger->command mappings
   private void configureBindings() {
-    // Climber controls: D-Pad Up makes climber go UP, D-Pad Down makes climber go
-    // DOWN
-    m_operatorController.povUp().whileTrue(
-        m_climberSubsystem.runClimberCommand(() -> true, () -> false));
 
-    m_operatorController.povDown().whileTrue(
-        m_climberSubsystem.runClimberCommand(() -> false, () -> true));
+    // feeder controls
+    m_operatorController.rightBumper().toggleOnTrue(
+        m_feederSubsystem.runFeederCommand(() -> true));
+
+    // fixed turret & indexer shooting
+    m_operatorController.leftTrigger().whileTrue(
+        m_fixedTurretSubsystem.runFixedTurretCommand(() -> false, () -> false, () -> true)
+            .andThen(m_indexerSubsystem.runIndexerCommand(() -> false, () -> false, () -> true, () -> false,
+                () -> false, () -> false)));
+
+    // mobile turret & indexer shooting
+    m_operatorController.rightTrigger().whileTrue(
+        m_mobileTurretSubsystem.runMobileTurretCommand(() -> false, () -> false, () -> false, () -> false, () -> true)
+            .andThen(m_indexerSubsystem.runIndexerCommand(() -> false, () -> false, () -> false, () -> false,
+                () -> true, () -> false)));
+
+    // condicionales para que funcione el indexer de manera opuesta y solo se vallan
+    // a un lado
+    if (m_operatorController.leftTrigger().getAsBoolean() == true
+        && m_operatorController.rightTrigger().getAsBoolean() == false) {
+
+      m_indexerSubsystem.runIndexerCommand(() -> false, () -> false, () -> false, () -> false, () -> false, () -> true);
+
+    }
+
+    if (m_operatorController.rightTrigger().getAsBoolean() == true
+        && m_operatorController.leftTrigger().getAsBoolean() == false) {
+
+      m_indexerSubsystem.runIndexerCommand(() -> false, () -> false, () -> false, () -> true, () -> false, () -> false);
+
+    }
+    // intake
+    m_operatorController.leftBumper().toggleOnTrue(
+        m_intakeSubsystem.runIntakeExtensorCommand(() -> true, () -> false, () -> false));
+
+    // extensor
+    m_operatorController.y().whileTrue(
+        m_intakeSubsystem.runIntakeExtensorCommand(() -> false, () -> true, () -> false));
+    m_operatorController.b().whileTrue(
+        m_intakeSubsystem.runIntakeExtensorCommand(() -> false, () -> false, () -> true));
+
+    // roller
+    m_operatorController.x().whileTrue(
+        m_indexerSubsystem.runIndexerCommand(() -> true, () -> false, () -> false, () -> false, () -> false,
+            () -> false));
+
+    m_operatorController.a().toggleOnTrue(
+        m_indexerSubsystem.runIndexerCommand(() -> true, () -> false, () -> true, () -> false, () -> false,
+            () -> false));
+
+    // escalador
+
+    m_operatorController.rightStick().whileTrue(
+        m_climberSubsystem.runClimberCommand(() -> -m_operatorController.getRightY()));
+
+    // falta emter angle y asi
+
   }
 
   // Returns the autonomous command

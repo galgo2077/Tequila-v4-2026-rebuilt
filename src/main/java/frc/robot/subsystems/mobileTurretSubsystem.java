@@ -33,11 +33,9 @@ public class mobileTurretSubsystem extends SubsystemBase {
         }
     }
 
-    public void ShooterMobile(boolean ShooterMobileIN, boolean ShooterMobileOUT) {
+    public void ShooterMobile(boolean ShooterMobileIN) {
         if (ShooterMobileIN) {
             ShooterMotorMobile.setControl(new DutyCycleOut(mobileTurretConstants.kShooterSpeedPositiveMobile));
-        } else if (ShooterMobileOUT) {
-            ShooterMotorMobile.setControl(new DutyCycleOut(mobileTurretConstants.kShooterSpeedNegativeMobile));
         } else {
             ShooterMotorMobile.setControl(new DutyCycleOut(0.0));
         }
@@ -61,16 +59,16 @@ public class mobileTurretSubsystem extends SubsystemBase {
 
     // Command factory
     public Command runMobileTurretCommand(BooleanSupplier angleIN, BooleanSupplier angleOUT,
-            BooleanSupplier ShooterMobileIN, BooleanSupplier ShooterMobileOUT,
+            BooleanSupplier ShooterMobileIN,
             BooleanSupplier TurretMobileIN, BooleanSupplier TurretMobileOUT) {
 
         return this.run(() -> {
 
             angle(angleIN.getAsBoolean(), angleOUT.getAsBoolean()); // Controls angle
 
-            ShooterMobile(ShooterMobileIN.getAsBoolean(), ShooterMobileOUT.getAsBoolean()); // Controls ShooterMobile
-
             TurretMobile(TurretMobileIN.getAsBoolean(), TurretMobileOUT.getAsBoolean()); // Controls TurretMobile
+
+            ShooterMobile(ShooterMobileIN.getAsBoolean()); // Controls ShooterMobile
 
         }).finallyDo(() -> {
             stop(); // Stop motors

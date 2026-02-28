@@ -22,12 +22,10 @@ public class feederSubsystem extends SubsystemBase {
     }
 
     // Passes balls to indexer
-    public void feeder(boolean feederIN, boolean feederOUT) {
+    public void feeder(boolean feederIN) {
 
         if (feederIN) {
             feederMotor.setControl(new DutyCycleOut(FeederConstants.kFeederSpeedPositive));
-        } else if (feederOUT) {
-            feederMotor.setControl(new DutyCycleOut(FeederConstants.kFeederSpeedNegative));
         } else {
             feederMotor.setControl(new DutyCycleOut(0.0));
         }
@@ -38,11 +36,11 @@ public class feederSubsystem extends SubsystemBase {
     }
 
     // Command factory
-    public Command runFeederCommand(BooleanSupplier feederIN, BooleanSupplier feederOUT) {
+    public Command runFeederCommand(BooleanSupplier feederIN) {
 
         return this.run(() -> {
 
-            feeder(feederIN.getAsBoolean(), feederOUT.getAsBoolean()); // Controls feeder
+            feeder(feederIN.getAsBoolean()); // Controls feeder
 
         }).finallyDo(() -> {
             stop(); // Stop motors

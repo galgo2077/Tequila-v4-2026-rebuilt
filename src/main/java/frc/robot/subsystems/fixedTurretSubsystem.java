@@ -32,11 +32,9 @@ public class fixedTurretSubsystem extends SubsystemBase {
         }
     }
 
-    public void ShooterFixed(boolean ShooterFixedIN, boolean ShooterFixedOUT) {
+    public void ShooterFixed(boolean ShooterFixedIN) {
         if (ShooterFixedIN) {
             ShooterFixedMotor.setControl(new DutyCycleOut(fixedTurretConstants.kShooterSpeedPositiveFixed));
-        } else if (ShooterFixedOUT) {
-            ShooterFixedMotor.setControl(new DutyCycleOut(fixedTurretConstants.kShoterSpeedNegativeFixed));
         } else {
             ShooterFixedMotor.setControl(new DutyCycleOut(0.0));
         }
@@ -49,13 +47,13 @@ public class fixedTurretSubsystem extends SubsystemBase {
 
     // Command factory
     public Command runFixedTurretCommand(BooleanSupplier angleIN, BooleanSupplier angleOUT,
-            BooleanSupplier ShooterFixedIN, BooleanSupplier ShooterFixedOUT) {
+            BooleanSupplier ShooterFixedIN) {
 
         return this.run(() -> {
 
             angle(angleIN.getAsBoolean(), angleOUT.getAsBoolean()); // Controls angle
 
-            ShooterFixed(ShooterFixedIN.getAsBoolean(), ShooterFixedOUT.getAsBoolean()); // Controls ShooterFixed
+            ShooterFixed(ShooterFixedIN.getAsBoolean()); // Controls ShooterFixed
 
         }).finallyDo(() -> {
             stop(); // Stop motors

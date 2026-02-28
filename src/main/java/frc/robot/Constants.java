@@ -50,7 +50,6 @@ public final class Constants {
 
     // speeds
     public static final double kFeederSpeedPositive = 0.9;
-    public static final double kFeederSpeedNegative = -0.9;
   }
 
   public static class fixedTurretConstants {
@@ -64,7 +63,6 @@ public final class Constants {
     public static final double kAngleSpeedNegativeFixed = -0.9;
 
     public static final double kShooterSpeedPositiveFixed = 0.9;
-    public static final double kShoterSpeedNegativeFixed = -0.9;
   }
 
   public static class mobileTurretConstants {
@@ -79,7 +77,6 @@ public final class Constants {
     public static final double kAngleSpeedNegativeMobile = -0.9;
 
     public static final double kShooterSpeedPositiveMobile = 0.9;
-    public static final double kShooterSpeedNegativeMobile = -0.9;
 
     public static final double kTurretSpeedPositiveMobile = 0.9;
     public static final double kTurretSpeedNegativeMobile = -0.9;

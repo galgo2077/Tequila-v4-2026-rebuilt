@@ -7,7 +7,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import frc.robot.Constants.climberConstants;
 import com.ctre.phoenix6.hardware.TalonFX;
-import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.units.measure.Angle;
@@ -20,11 +20,9 @@ public class climberSubsystem extends SubsystemBase {
 
   private final TalonFX climberMotor = new TalonFX(climberConstants.kClimberMotor);
 
-  public void climber(boolean climberUP, boolean climberDOWN) {
-    if (climberUP) {
-      climberMotor.setControl(new DutyCycleOut(climberConstants.kClimberSpeedPositive));
-    } else if (climberDOWN) {
-      climberMotor.setControl(new DutyCycleOut(climberConstants.kClimberSpeedNegative));
+  public void climber(double climberSpeed) {
+    if (Math.abs(climberSpeed) > 0.1) {
+      climberMotor.setControl(new DutyCycleOut(climberSpeed));
     } else {
       climberMotor.setControl(new DutyCycleOut(0.0));
     }
@@ -35,11 +33,11 @@ public class climberSubsystem extends SubsystemBase {
   }
 
   // Command factory
-  public Command runClimberCommand(BooleanSupplier climberUP, BooleanSupplier climberDOWN) {
+  public Command runClimberCommand(DoubleSupplier climberSpeed) {
 
     return this.run(() -> {
 
-      climber(climberUP.getAsBoolean(), climberDOWN.getAsBoolean()); // Controls climber
+      climber(climberSpeed.getAsDouble()); // Controls climber
 
     }).finallyDo(() -> {
       stop(); // Stop motors

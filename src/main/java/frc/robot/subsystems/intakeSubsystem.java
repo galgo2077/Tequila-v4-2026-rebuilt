@@ -22,11 +22,9 @@ public class intakeSubsystem extends SubsystemBase {
     // Constructor
   }
 
-  public void intake(boolean intakeIN, boolean outakeOUT) {
+  public void intake(boolean intakeIN) {
     if (intakeIN) {
       IntakeMotor.setControl(new DutyCycleOut(IntakeConstants.kIntakeSpeedPositive));
-    } else if (outakeOUT) {
-      IntakeMotor.setControl(new DutyCycleOut(IntakeConstants.kIntakeSpeedNegative));
     } else {
       IntakeMotor.setControl(new DutyCycleOut(0.0));
     }
@@ -48,12 +46,12 @@ public class intakeSubsystem extends SubsystemBase {
   }
 
   // Command factory
-  public Command runIntakeExtensorCommand(BooleanSupplier intakeIn, BooleanSupplier intakeOut,
+  public Command runIntakeExtensorCommand(BooleanSupplier intakeIn,
       BooleanSupplier extensorIn, BooleanSupplier extensorOut) {
 
     return this.run(() -> {
 
-      intake(intakeIn.getAsBoolean(), intakeOut.getAsBoolean()); // Controls intake
+      intake(intakeIn.getAsBoolean()); // Controls intake
 
       Extensor(extensorIn.getAsBoolean(), extensorOut.getAsBoolean()); // Controls extensor
 

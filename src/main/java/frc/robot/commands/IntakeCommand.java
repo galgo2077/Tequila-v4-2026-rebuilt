@@ -9,17 +9,15 @@ public class IntakeCommand extends Command {
     private final intakeSubsystem m_subsystem;
 
     private final BooleanSupplier m_intakein;
-    private final BooleanSupplier m_intakeout;
 
     private final BooleanSupplier m_extensorin;
     private final BooleanSupplier m_extensorout;
 
-    public IntakeCommand(intakeSubsystem subsystem, BooleanSupplier intakein, BooleanSupplier intakeout,
-            BooleanSupplier extensorin, BooleanSupplier extensorout) {
+    public IntakeCommand(intakeSubsystem subsystem, BooleanSupplier intakein, BooleanSupplier extensorin,
+            BooleanSupplier extensorout) {
         m_subsystem = subsystem;
 
         m_intakein = intakein;
-        m_intakeout = intakeout;
         m_extensorin = extensorin;
         m_extensorout = extensorout;
 
@@ -30,7 +28,7 @@ public class IntakeCommand extends Command {
     @Override
     public void execute() {
         // Pass button values to subsystem logic
-        m_subsystem.intake(m_intakein.getAsBoolean(), m_intakeout.getAsBoolean());
+        m_subsystem.intake(m_intakein.getAsBoolean());
         m_subsystem.Extensor(m_extensorin.getAsBoolean(), m_extensorout.getAsBoolean());
     }
 
@@ -43,7 +41,7 @@ public class IntakeCommand extends Command {
     @Override
     public boolean isFinished() {
         // Run while button is held
-        // 
+        //
         return false;
     }
 }
