@@ -3,7 +3,9 @@ package frc.robot.subsystems.Mates;
 public class tiempo_angle {
 
     // El Kraken X44 a 12V
-    private final double RPM_MAX = 7200.0;
+    private final double RPM_MAX = 3600.0;// esto se va a bajar conforme veamos si bajo esto debo bajar mi potencia del
+                                          // motor
+
     // Tu factor de conversión: 20 grados / 54 revs = 0.37 (aprox)
     private final double REVS_POR_GRADO = 0.369;
     private final double REVOLUCIONES_TOTALES = 54.0;
@@ -15,8 +17,8 @@ public class tiempo_angle {
     public double tiempo_inicio() {
         // (54 / 7200) * 60 = 0.45 segundos
         double revoluciones_necesarias = REVOLUCIONES_TOTALES / REVS_POR_GRADO;
-        double tiempo = (revoluciones_necesarias / RPM_MAX) * 60.0;
-        return tiempo;
+        double tiempo_inicio = (revoluciones_necesarias / RPM_MAX) * 60.0;
+        return tiempo_inicio;
     }
 
     /**
@@ -29,8 +31,8 @@ public class tiempo_angle {
         double revoluciones_necesarias = grados_a_mover / REVS_POR_GRADO;
 
         // Calculamos cuánto tiempo debe estar encendido a 7200 RPM
-        double tiempo = (revoluciones_necesarias / RPM_MAX) * 60.0;
+        double tiempo_posicionar = (revoluciones_necesarias / RPM_MAX) * 60.0;
 
-        return tiempo;
+        return tiempo_posicionar;
     }
 }
