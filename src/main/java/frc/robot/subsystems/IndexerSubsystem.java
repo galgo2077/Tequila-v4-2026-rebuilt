@@ -1,7 +1,13 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import frc.robot.Constants.IndexerConstants;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -71,6 +77,55 @@ public class IndexerSubsystem extends SubsystemBase {
         }).finallyDo(() -> {
             stop(); // Stop motors
         });
+
+    }
+
+    // roller motor
+
+    // asi obtenemos datos del motor
+    private final StatusSignal<AngularVelocity> velocityRollerMotor = rollerMotor.getVelocity();
+    private final StatusSignal<Angle> positionRollerMotor = rollerMotor.getPosition();
+    private final StatusSignal<Current> currentRollerMotor = rollerMotor.getSupplyCurrent();
+
+    // indexer motor right
+
+    // asi obtenemos datos del motor
+    private final StatusSignal<AngularVelocity> velocityIndexerMotorRight = indexerMotorRight.getVelocity();
+    private final StatusSignal<Angle> positionIndexerMotorRight = indexerMotorRight.getPosition();
+    private final StatusSignal<Current> currentIndexerMotorRight = indexerMotorRight.getSupplyCurrent();
+
+    // indexer motor left
+
+    private final StatusSignal<AngularVelocity> velocityIndexerMotorLeft = indexerMotorLeft.getVelocity();
+    private final StatusSignal<Angle> positionIndexerMotorLeft = indexerMotorLeft.getPosition();
+    private final StatusSignal<Current> currentIndexerMotorLeft = indexerMotorLeft.getSupplyCurrent();
+
+    @Override
+    public void periodic() {
+
+        velocityRollerMotor.refresh();
+        positionRollerMotor.refresh();
+        currentRollerMotor.refresh();
+
+        SmartDashboard.putNumber("Roller Motor Velocity", velocityRollerMotor.getValueAsDouble());
+        SmartDashboard.putNumber("Roller Motor Position", positionRollerMotor.getValueAsDouble());
+        SmartDashboard.putNumber("Roller Motor Current", currentRollerMotor.getValueAsDouble());
+
+        velocityIndexerMotorRight.refresh();
+        positionIndexerMotorRight.refresh();
+        currentIndexerMotorRight.refresh();
+
+        SmartDashboard.putNumber("Indexer Motor Right Velocity", velocityIndexerMotorRight.getValueAsDouble());
+        SmartDashboard.putNumber("Indexer Motor Right Position", positionIndexerMotorRight.getValueAsDouble());
+        SmartDashboard.putNumber("Indexer Motor Right Current", currentIndexerMotorRight.getValueAsDouble());
+
+        velocityIndexerMotorLeft.refresh();
+        positionIndexerMotorLeft.refresh();
+        currentIndexerMotorLeft.refresh();
+
+        SmartDashboard.putNumber("Indexer Motor Left Velocity", velocityIndexerMotorLeft.getValueAsDouble());
+        SmartDashboard.putNumber("Indexer Motor Left Position", positionIndexerMotorLeft.getValueAsDouble());
+        SmartDashboard.putNumber("Indexer Motor Left Current", currentIndexerMotorLeft.getValueAsDouble());
 
     }
 
