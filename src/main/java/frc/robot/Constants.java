@@ -353,7 +353,7 @@ public final class Constants {
         public static final boolean kInterceptorAutoHoodEnabled = true;
 
         // ── Helpers — lookup por modo activo ─────────────────────────────
-        public static double getDriveSpeed(frc.robot.commands.mechanism.SuperstructureCommand.DriveMode mode) {
+        public static double getDriveSpeed(frc.robot.commands.mechanisms.SuperstructureCommand.DriveMode mode) {
             return switch (mode) {
                 case BOMBER      -> kBomberDriveSpeed;
                 case STRIKER     -> kStrikerDriveSpeed;
@@ -361,7 +361,7 @@ public final class Constants {
             };
         }
 
-        public static double getRotSpeed(frc.robot.commands.mechanism.SuperstructureCommand.DriveMode mode) {
+        public static double getRotSpeed(frc.robot.commands.mechanisms.SuperstructureCommand.DriveMode mode) {
             return switch (mode) {
                 case BOMBER      -> kBomberRotSpeed;
                 case STRIKER     -> kStrikerRotSpeed;
@@ -369,7 +369,7 @@ public final class Constants {
             };
         }
 
-        public static double getShooterCap(frc.robot.commands.mechanism.SuperstructureCommand.DriveMode mode) {
+        public static double getShooterCap(frc.robot.commands.mechanisms.SuperstructureCommand.DriveMode mode) {
             return switch (mode) {
                 case BOMBER      -> kBomberShooterSpeedCap;
                 case STRIKER     -> kStrikerShooterSpeedCap;
@@ -377,7 +377,7 @@ public final class Constants {
             };
         }
 
-        public static boolean isOrbitEnabled(frc.robot.commands.mechanism.SuperstructureCommand.DriveMode mode) {
+        public static boolean isOrbitEnabled(frc.robot.commands.mechanisms.SuperstructureCommand.DriveMode mode) {
             return switch (mode) {
                 case BOMBER      -> kBomberOrbitEnabled;
                 case STRIKER     -> kStrikerOrbitEnabled;

@@ -1,6 +1,7 @@
-package frc.robot.commands.mechanism;
+package frc.robot.commands.mechanisms;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.mechanisms.SuperstructureCommand;
 
 /**
  * PrepShootersCmd — enciende flywheels y mueve hoods al ángulo ideal

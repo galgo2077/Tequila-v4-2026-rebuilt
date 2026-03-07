@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.mechanism.SuperstructureCommand;
-import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.fixedTurretSubsystem;
-import frc.robot.subsystems.mobileTurretSubsystem;
+import frc.robot.commands.mechanisms.SuperstructureCommand;
+import frc.robot.subsystems.mechanism.IndexerSubsystem;
+// TODO: import frc.robot.subsystems.DriveSubsystem; (add when DriveSubsystem is created)
+import frc.robot.subsystems.mechanism.fixedTurretSubsystem;
+import frc.robot.subsystems.mechanism.mobileTurretSubsystem;
 
 /**
  * TelemetryManager — publica todos los datos de Elastic Dashboard

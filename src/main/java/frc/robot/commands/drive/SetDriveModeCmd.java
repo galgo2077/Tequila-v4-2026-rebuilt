@@ -1,8 +1,8 @@
 package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.mechanism.SuperstructureCommand.DriveMode;
-import frc.robot.commands.mechanism.SuperstructureCommand;
+import frc.robot.commands.mechanisms.SuperstructureCommand.DriveMode;
+import frc.robot.commands.mechanisms.SuperstructureCommand;
 
 /**
  * SetDriveModeCmd — cambia entre Bomber / Striker / Interceptor.

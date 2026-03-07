@@ -1,4 +1,4 @@
-package frc.robot.commands.mechanism;
+package frc.robot.commands.mechanisms;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,13 +10,13 @@ import frc.robot.Constants.FixedTurretConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.MobileTurretConstants;
-import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.climberSubsystem;
-import frc.robot.subsystems.feederSubsystem;
-import frc.robot.subsystems.fixedTurretSubsystem;
-import frc.robot.subsystems.intakeSubsystem;
-import frc.robot.subsystems.limelightTurret;
-import frc.robot.subsystems.mobileTurretSubsystem;
+import frc.robot.subsystems.mechanism.IndexerSubsystem;
+import frc.robot.subsystems.mechanism.climberSubsystem;
+import frc.robot.subsystems.mechanism.feederSubsystem;
+import frc.robot.subsystems.mechanism.fixedTurretSubsystem;
+import frc.robot.subsystems.mechanism.intakeSubsystem;
+import frc.robot.subsystems.vision.limelightTurret;
+import frc.robot.subsystems.mechanism.mobileTurretSubsystem;
 
 import java.util.function.DoubleSupplier;
 
