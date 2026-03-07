@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import frc.robot.Constants.CurrentLimits;
 import frc.robot.Constants.MobileTurretConstants;
 import frc.robot.Constants.ShootingConfigs;
 import frc.robot.Constants.VisionConstants;
@@ -23,8 +24,8 @@ public class mobileTurretSubsystem extends SubsystemBase {
     // ─────────────────────────────────────────────────────────────────────────
     // POSICIONES (en revoluciones del motor) — ajustar tras homing
     // ─────────────────────────────────────────────────────────────────────────
-    private static final double kAngleMin                    =  0.0;
-    private static final double kAngleMax                    = 20.0;  // Medir en robot
+    // Rango del hood — definido en MobileTurretConstants como kHoodMinRevs / kHoodMaxRevs
+    // kHoodMinDeg=15° → kHoodMinRevs≈0.1125  |  kHoodMaxDeg=60° → kHoodMaxRevs≈0.45
     private static final double kAngleHomingVolts            = -1.5;
     private static final double kAngleHomingCurrentThreshold =  8.0;  // Amps
 
@@ -32,16 +33,6 @@ public class mobileTurretSubsystem extends SubsystemBase {
     private static final double kRotationMax                    = 40.0; // Medir en robot
     private static final double kRotationHomingVolts            = -1.5;
     private static final double kRotationHomingCurrentThreshold = 10.0; // Amps
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // LÍMITES DE CORRIENTE
-    // ─────────────────────────────────────────────────────────────────────────
-    private static final int kAngleStatorLimit    = 30;
-    private static final int kAngleSupplyLimit    = 25;
-    private static final int kRotationStatorLimit = 40; // Más alto: carga mayor
-    private static final int kRotationSupplyLimit = 35;
-    private static final int kShooterStatorLimit  = 40;
-    private static final int kShooterSupplyLimit  = 35;
 
     // ─────────────────────────────────────────────────────────────────────────
     // MOTORES
@@ -82,12 +73,10 @@ public class mobileTurretSubsystem extends SubsystemBase {
         // Angle motor
         TalonFXConfiguration angleConfig = new TalonFXConfiguration();
         angleConfig.MotorOutput.NeutralMode                       = NeutralModeValue.Brake;
-        angleConfig.CurrentLimits.StatorCurrentLimit              = kAngleStatorLimit;
-        angleConfig.CurrentLimits.StatorCurrentLimitEnable        = true;
-        angleConfig.CurrentLimits.SupplyCurrentLimit              = kAngleSupplyLimit;
-        angleConfig.CurrentLimits.SupplyCurrentLimitEnable        = true;
-        angleConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kAngleMax;
-        angleConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = kAngleMin;
+        angleConfig.CurrentLimits.SupplyCurrentLimit              = CurrentLimits.kMechanismSupply;
+        angleConfig.CurrentLimits.SupplyCurrentLimitEnable        = CurrentLimits.kMechanismLimitEnable;
+        angleConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = MobileTurretConstants.kHoodMaxRevs;
+        angleConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = MobileTurretConstants.kHoodMinRevs;
         angleConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable    = false;
         angleConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable    = false;
         m_angleMotor.getConfigurator().apply(angleConfig);
@@ -95,10 +84,8 @@ public class mobileTurretSubsystem extends SubsystemBase {
         // Rotation motor
         TalonFXConfiguration rotationConfig = new TalonFXConfiguration();
         rotationConfig.MotorOutput.NeutralMode                       = NeutralModeValue.Brake;
-        rotationConfig.CurrentLimits.StatorCurrentLimit              = kRotationStatorLimit;
-        rotationConfig.CurrentLimits.StatorCurrentLimitEnable        = true;
-        rotationConfig.CurrentLimits.SupplyCurrentLimit              = kRotationSupplyLimit;
-        rotationConfig.CurrentLimits.SupplyCurrentLimitEnable        = true;
+        rotationConfig.CurrentLimits.SupplyCurrentLimit              = CurrentLimits.kMechanismSupply;
+        rotationConfig.CurrentLimits.SupplyCurrentLimitEnable        = CurrentLimits.kMechanismLimitEnable;
         rotationConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kRotationMax;
         rotationConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = kRotationMin;
         rotationConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable    = false;
@@ -108,10 +95,7 @@ public class mobileTurretSubsystem extends SubsystemBase {
         // Shooter motor
         TalonFXConfiguration shooterConfig = new TalonFXConfiguration();
         shooterConfig.MotorOutput.NeutralMode              = NeutralModeValue.Coast;
-        shooterConfig.CurrentLimits.StatorCurrentLimit     = kShooterStatorLimit;
-        shooterConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        shooterConfig.CurrentLimits.SupplyCurrentLimit     = kShooterSupplyLimit;
-        shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        shooterConfig.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kNoLimitEnable;
         m_shooterMotor.getConfigurator().apply(shooterConfig);
     }
 
@@ -135,12 +119,10 @@ public class mobileTurretSubsystem extends SubsystemBase {
         m_angleMotor.setPosition(0.0);
         TalonFXConfiguration cfg = new TalonFXConfiguration();
         cfg.MotorOutput.NeutralMode                       = NeutralModeValue.Brake;
-        cfg.CurrentLimits.StatorCurrentLimit              = kAngleStatorLimit;
-        cfg.CurrentLimits.StatorCurrentLimitEnable        = true;
-        cfg.CurrentLimits.SupplyCurrentLimit              = kAngleSupplyLimit;
-        cfg.CurrentLimits.SupplyCurrentLimitEnable        = true;
-        cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kAngleMax;
-        cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = kAngleMin;
+        cfg.CurrentLimits.SupplyCurrentLimit              = CurrentLimits.kMechanismSupply;
+        cfg.CurrentLimits.SupplyCurrentLimitEnable        = CurrentLimits.kMechanismLimitEnable;
+        cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = MobileTurretConstants.kHoodMaxRevs;
+        cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = MobileTurretConstants.kHoodMinRevs;
         cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable    = true;
         cfg.SoftwareLimitSwitch.ReverseSoftLimitEnable    = true;
         m_angleMotor.getConfigurator().apply(cfg);
@@ -154,10 +136,8 @@ public class mobileTurretSubsystem extends SubsystemBase {
         m_rotationMotor.setPosition(0.0);
         TalonFXConfiguration cfg = new TalonFXConfiguration();
         cfg.MotorOutput.NeutralMode                       = NeutralModeValue.Brake;
-        cfg.CurrentLimits.StatorCurrentLimit              = kRotationStatorLimit;
-        cfg.CurrentLimits.StatorCurrentLimitEnable        = true;
-        cfg.CurrentLimits.SupplyCurrentLimit              = kRotationSupplyLimit;
-        cfg.CurrentLimits.SupplyCurrentLimitEnable        = true;
+        cfg.CurrentLimits.SupplyCurrentLimit              = CurrentLimits.kMechanismSupply;
+        cfg.CurrentLimits.SupplyCurrentLimitEnable        = CurrentLimits.kMechanismLimitEnable;
         cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kRotationMax;
         cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = kRotationMin;
         cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable    = true;
@@ -175,6 +155,9 @@ public class mobileTurretSubsystem extends SubsystemBase {
     public boolean isAngleHomed()    { return m_angleHomed; }
     public boolean isRotationHomed() { return m_rotationHomed; }
     public boolean isFullyHomed()    { return m_angleHomed && m_rotationHomed; }
+
+    /** Revoluciones actuales del motor del hood (para SuperstructureCommand). */
+    public double getAngleRevs() { return m_anglePosSignal.getValueAsDouble(); }
 
     // ─────────────────────────────────────────────────────────────────────────
     // VISIÓN

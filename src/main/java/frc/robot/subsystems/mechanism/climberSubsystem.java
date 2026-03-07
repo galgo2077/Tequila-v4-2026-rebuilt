@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.Constants.CurrentLimits;
 import java.util.function.DoubleSupplier;
 
 public class climberSubsystem extends SubsystemBase {
@@ -51,10 +52,7 @@ public class climberSubsystem extends SubsystemBase {
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         // CORRIENTE: 60A para levantar el peso del robot
-        config.CurrentLimits.StatorCurrentLimit       = ClimberConstants.kCurrentLimit;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.SupplyCurrentLimit       = ClimberConstants.kCurrentLimit;
-        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kNoLimitEnable;
 
         // Soft limits OFF hasta homear
         config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kClimberMax;
@@ -86,10 +84,7 @@ public class climberSubsystem extends SubsystemBase {
 
         TalonFXConfiguration cfg = new TalonFXConfiguration();
         cfg.MotorOutput.NeutralMode                       = NeutralModeValue.Brake;
-        cfg.CurrentLimits.StatorCurrentLimit              = ClimberConstants.kCurrentLimit;
-        cfg.CurrentLimits.StatorCurrentLimitEnable        = true;
-        cfg.CurrentLimits.SupplyCurrentLimit              = ClimberConstants.kCurrentLimit;
-        cfg.CurrentLimits.SupplyCurrentLimitEnable        = true;
+        cfg.CurrentLimits.SupplyCurrentLimitEnable        = CurrentLimits.kNoLimitEnable;
         cfg.SoftwareLimitSwitch.ForwardSoftLimitThreshold = kClimberMax;
         cfg.SoftwareLimitSwitch.ReverseSoftLimitThreshold = kClimberMin;
         cfg.SoftwareLimitSwitch.ForwardSoftLimitEnable    = true;

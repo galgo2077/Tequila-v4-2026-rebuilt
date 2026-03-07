@@ -1,0 +1,64 @@
+{
+  "version": "2025.0",
+  "startingPose": {
+    "position": { "x": 3.300, "y": 3.860 },
+    "rotation": 180
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+
+        {
+          "type": "named",
+          "data": { "name": "PrepDual" }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "BomberSprint_ScorePreload" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "ShootDual" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "BomberSprint_Ball1" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+        {
+          "type": "path",
+          "data": { "pathName": "BomberSprint_Score" }
+        },
+        {
+          "type": "named",
+          "data": { "name": "ShootDual" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "StopShoot" }
+        }
+
+      ]
+    }
+  }
+}

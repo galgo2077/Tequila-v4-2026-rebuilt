@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "startingPose": {
+    "position": { "x": 3.300, "y": 4.150 },
+    "rotation": 180
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+
+        {
+          "type": "named",
+          "data": { "name": "PrepDual" }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "BomberCenter_ScorePreload" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "ShootDual" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "BomberCenter_Ball1" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+        {
+          "type": "path",
+          "data": { "pathName": "BomberCenter_ScoreBall1" }
+        },
+        {
+          "type": "named",
+          "data": { "name": "ShootDual" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "BomberCenter_Balls23" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+        {
+          "type": "path",
+          "data": { "pathName": "BomberCenter_ScoreBalls23" }
+        },
+        {
+          "type": "named",
+          "data": { "name": "ShootDual" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "StopShoot" }
+        }
+
+      ]
+    }
+  }
+}

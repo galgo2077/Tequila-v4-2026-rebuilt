@@ -14,6 +14,10 @@ public class RobotContainer {
   private final mobileTurretSubsystem m_mobileTurret = new mobileTurretSubsystem();
   private final climberSubsystem m_climber = new climberSubsystem();
 
+  private final limelightTurret m_vision = new limelightTurret();
+  private final mobileTurretSubsystem m_mobileTurret = new mobileTurretSubsystem(m_vision);
+  private final fixedTurretSubsystem  m_fixedTurret  = new fixedTurretSubsystem(m_vision);
+
   // --- Controles ---
   private final CommandXboxController m_driverController = 
       new CommandXboxController(OIConstants.kDriverControllerPort);

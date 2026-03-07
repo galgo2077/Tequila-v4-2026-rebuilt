@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import frc.robot.Constants.CurrentLimits;
 import frc.robot.Constants.IntakeConstants;
 
 import java.util.function.BooleanSupplier;
@@ -58,8 +59,10 @@ public class intakeSubsystem extends SubsystemBase {
         intakeConfig.MotorOutput.Inverted = IntakeConstants.kMotorInverted
                 ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
-        intakeConfig.CurrentLimits.StatorCurrentLimit       = IntakeConstants.kStatorCurrentLimit;
-        intakeConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        intakeConfig.CurrentLimits.SupplyCurrentLimit       = CurrentLimits.kMechanismSupply;
+        intakeConfig.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
+                ? InvertedValue.Clockwise_Positive
+                : InvertedValue.CounterClockwise_Positive;
         m_intakeMotor.getConfigurator().apply(intakeConfig);
 
         // --- EXTENSOR ---
@@ -71,8 +74,8 @@ public class intakeSubsystem extends SubsystemBase {
         extensorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold  = kExtensorRetracted;
         extensorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable     = false; // OFF hasta homear
         extensorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable     = false; // OFF hasta homear
-        extensorConfig.CurrentLimits.StatorCurrentLimit               = 30;
-        extensorConfig.CurrentLimits.StatorCurrentLimitEnable         = true;
+        extensorConfig.CurrentLimits.SupplyCurrentLimit               = CurrentLimits.kMechanismSupply;
+        extensorConfig.CurrentLimits.SupplyCurrentLimitEnable         = CurrentLimits.kMechanismLimitEnable;
         m_extensorMotor.getConfigurator().apply(extensorConfig);
     }
 

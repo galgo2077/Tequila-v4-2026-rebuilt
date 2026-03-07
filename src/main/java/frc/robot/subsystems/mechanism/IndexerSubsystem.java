@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import frc.robot.Constants.CurrentLimits;
 import frc.robot.Constants.IndexerConstants;
 import java.util.function.BooleanSupplier;
 
@@ -19,9 +20,6 @@ public class IndexerSubsystem extends SubsystemBase {
     // ─────────────────────────────────────────────────────────────────────────
     // LÍMITES DE CORRIENTE
     // ─────────────────────────────────────────────────────────────────────────
-    private static final int kStatorCurrentLimit = 40; // Amps
-    private static final int kSupplyCurrentLimit = 35; // Amps
-
     // ─────────────────────────────────────────────────────────────────────────
     // MOTORES
     // ─────────────────────────────────────────────────────────────────────────
@@ -44,10 +42,8 @@ public class IndexerSubsystem extends SubsystemBase {
         // Config base compartida
         TalonFXConfiguration baseConfig = new TalonFXConfiguration();
         baseConfig.MotorOutput.NeutralMode              = NeutralModeValue.Brake;
-        baseConfig.CurrentLimits.StatorCurrentLimit     = kStatorCurrentLimit;
-        baseConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        baseConfig.CurrentLimits.SupplyCurrentLimit     = kSupplyCurrentLimit;
-        baseConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        baseConfig.CurrentLimits.SupplyCurrentLimit     = CurrentLimits.kMechanismSupply;
+        baseConfig.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
 
         // Roller (sin inversión específica)
         m_rollerMotor.getConfigurator().apply(baseConfig);
@@ -58,10 +54,8 @@ public class IndexerSubsystem extends SubsystemBase {
         rightConfig.MotorOutput.Inverted    = IndexerConstants.kInvertRight
                 ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
-        rightConfig.CurrentLimits.StatorCurrentLimit      = kStatorCurrentLimit;
-        rightConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        rightConfig.CurrentLimits.SupplyCurrentLimit      = kSupplyCurrentLimit;
-        rightConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        rightConfig.CurrentLimits.SupplyCurrentLimit      = CurrentLimits.kMechanismSupply;
+        rightConfig.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
         m_indexerMotorRight.getConfigurator().apply(rightConfig);
 
         // Indexer Izquierdo
@@ -70,10 +64,8 @@ public class IndexerSubsystem extends SubsystemBase {
         leftConfig.MotorOutput.Inverted    = IndexerConstants.kInvertLeft
                 ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
-        leftConfig.CurrentLimits.StatorCurrentLimit      = kStatorCurrentLimit;
-        leftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        leftConfig.CurrentLimits.SupplyCurrentLimit      = kSupplyCurrentLimit;
-        leftConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+        leftConfig.CurrentLimits.SupplyCurrentLimit      = CurrentLimits.kMechanismSupply;
+        leftConfig.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
         m_indexerMotorLeft.getConfigurator().apply(leftConfig);
     }
 

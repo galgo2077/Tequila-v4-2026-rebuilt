@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import frc.robot.Constants.CurrentLimits;
 import frc.robot.Constants.FeederConstants;
 import java.util.function.BooleanSupplier;
 
@@ -18,9 +19,6 @@ public class feederSubsystem extends SubsystemBase {
     // ─────────────────────────────────────────────────────────────────────────
     // LÍMITES DE CORRIENTE
     // ─────────────────────────────────────────────────────────────────────────
-    private static final int kStatorCurrentLimit = 30; // Amps — protección si se traba
-    private static final int kSupplyCurrentLimit = 25; // Amps — protección del cable/breaker
-
     // ─────────────────────────────────────────────────────────────────────────
     // MOTOR
     // ─────────────────────────────────────────────────────────────────────────
@@ -42,12 +40,10 @@ public class feederSubsystem extends SubsystemBase {
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         // Stator: protege el motor si la pieza se atasca
-        config.CurrentLimits.StatorCurrentLimit       = kStatorCurrentLimit;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;
 
         // Supply: protege el cableado y breaker
-        config.CurrentLimits.SupplyCurrentLimit       = kSupplyCurrentLimit;
-        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit       = CurrentLimits.kMechanismSupply;
+        config.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
 
         m_feederMotor.getConfigurator().apply(config);
     }

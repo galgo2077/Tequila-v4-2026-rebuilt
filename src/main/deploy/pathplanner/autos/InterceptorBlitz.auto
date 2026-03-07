@@ -1,0 +1,67 @@
+{
+  "version": "2025.0",
+  "startingPose": {
+    "position": { "x": 5.109, "y": 2.650 },
+    "rotation": -60
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "InterceptorBlitz_CrossField" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "InterceptorBlitz_DisruptZone1" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "InterceptorBlitz_DisruptZone2" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "InterceptorBlitz_Return" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "StopShoot" }
+        }
+
+      ]
+    }
+  }
+}

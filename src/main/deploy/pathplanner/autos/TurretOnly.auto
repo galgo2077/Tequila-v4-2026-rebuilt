@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "startingPose": {
+    "position": { "x": 3.300, "y": 4.150 },
+    "rotation": 180
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+
+        {
+          "type": "named",
+          "data": { "name": "PrepTurret" }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "TurretOnly_ScorePreload" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "ShootTurret" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "TurretOnly_Ball1" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+        {
+          "type": "path",
+          "data": { "pathName": "TurretOnly_ScoreBall1" }
+        },
+        {
+          "type": "named",
+          "data": { "name": "ShootTurret" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "TurretOnly_Ball2" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "IntakeUp" }
+        },
+        {
+          "type": "path",
+          "data": { "pathName": "TurretOnly_ScoreBall2" }
+        },
+        {
+          "type": "named",
+          "data": { "name": "ShootTurret" }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "StopShoot" }
+        }
+
+      ]
+    }
+  }
+}

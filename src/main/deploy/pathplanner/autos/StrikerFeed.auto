@@ -1,0 +1,62 @@
+{
+  "version": "2025.0",
+  "startingPose": {
+    "position": { "x": 3.920, "y": 5.430 },
+    "rotation": 120
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "StrikerFeed_CollectBalls" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "FeedOut" }
+        },
+
+        {
+          "type": "path",
+          "data": { "pathName": "StrikerFeed_ToAllianceZone" }
+        },
+
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": { "name": "IntakeDown" }
+              },
+              {
+                "type": "path",
+                "data": { "pathName": "StrikerFeed_SecondPass" }
+              }
+            ]
+          }
+        },
+
+        {
+          "type": "named",
+          "data": { "name": "StopShoot" }
+        }
+
+      ]
+    }
+  }
+}
