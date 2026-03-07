@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.mechanisms.SuperstructureCommand;
-// TODO: import frc.robot.subsystems.DriveSubsystem; (add when DriveSubsystem is created)
+import com.pathplanner.lib.config.PIDConstants;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 /**
  * AutonomousChooser — registro centralizado de Named Commands y
@@ -61,15 +62,15 @@ public class AutonomousChooser {
                 drive::getRobotRelativeSpeeds,
                 (speeds, feedforwards) -> drive.driveRobotRelative(speeds),
                 new PPHolonomicDriveController(
-                    AutoConstants.kPXController,       // kP translación X
-                    AutoConstants.kPYController,       // kP translación Y
-                    AutoConstants.kPThetaController    // kP rotación
+                    // ❌ Antes: 3 doubles separados
+                    // ✅ Ahora: 2 PIDConstants (traslacion, rotacion)
+                    new PIDConstants(AutoConstants.kPXController, 0.0, 0.0),
+                    new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0)
                 ),
                 config,
-                // Alliance flip automático: PathPlanner espeja paths para RED
                 () -> DriverStation.getAlliance()
-                      .map(a -> a == DriverStation.Alliance.Red)
-                      .orElse(false),
+                    .map(a -> a == DriverStation.Alliance.Red)
+                    .orElse(false),
                 drive
             );
         } catch (Exception e) {

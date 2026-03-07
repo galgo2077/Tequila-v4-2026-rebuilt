@@ -146,6 +146,7 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int kIntakeMotorId   = 21;
         public static final int kExtensorMotorId = 20;
+        public static final double kExtensorDeployed = 10.0; // Ajustar con encoder real
 
         public static final double kIntakeSpeed   = 0.9;
         public static final double kExtensorSpeed = 0.9;
