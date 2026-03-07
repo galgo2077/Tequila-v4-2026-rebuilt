@@ -5,10 +5,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.DriveModeConstants;
+import frc.robot.Constants.ModoRobot;
 import frc.robot.commands.drive.*;
 import frc.robot.commands.mechanisms.*;
 import frc.robot.subsystems.mechanism.*;
+import frc.robot.subsystems.mechanism.io.*;
 import frc.robot.subsystems.vision.limelightTurret;
 
 public class RobotContainer {
@@ -20,26 +21,63 @@ public class RobotContainer {
         new CommandXboxController(OIConstants.kMechanismsControllerPort);
 
     // ── Subsistemas ───────────────────────────────────────────────────────────
-    private final limelightTurret       m_vision       = new limelightTurret();
-    private final intakeSubsystem       m_intake       = new intakeSubsystem();
-    private final IndexerSubsystem      m_indexer      = new IndexerSubsystem();
-    private final feederSubsystem       m_feeder       = new feederSubsystem();
-    private final mobileTurretSubsystem m_mobileTurret = new mobileTurretSubsystem(m_vision);
-    private final fixedTurretSubsystem  m_fixedTurret  = new fixedTurretSubsystem(m_vision);
-    private final climberSubsystem      m_climber      = new climberSubsystem();
+    private final limelightTurret        m_vision;
+    private final intakeSubsystem        m_intake;
+    private final IndexerSubsystem       m_indexer;
+    private final feederSubsystem        m_feeder;
+    private final mobileTurretSubsystem  m_mobileTurret;
+    private final fixedTurretSubsystem   m_fixedTurret;
+    private final climberSubsystem       m_climber;
 
     // ── Superstructure ────────────────────────────────────────────────────────
-    private final SuperstructureCommand m_super = new SuperstructureCommand(
-        m_intake, m_indexer, m_feeder, m_mobileTurret, m_fixedTurret, m_climber, m_vision,
-        () -> m_mechCtrl.getRawAxis(1)
-    );
+    private final SuperstructureCommand m_super;
 
     // ─────────────────────────────────────────────────────────────────────────
     public RobotContainer() {
-        // Programar SuperstructureCommand perpetuo
+
+        // ── IO injection según modo (REAL / SIM / REPLAY) ─────────────────────
+        m_vision = new limelightTurret();
+
+        switch (Constants.currentMode) {
+
+            case REAL -> {
+                m_intake       = new intakeSubsystem(new IntakeIOReal());
+                m_indexer      = new IndexerSubsystem(new IndexerIOReal());
+                m_feeder       = new feederSubsystem(new FeederIOReal());
+                m_mobileTurret = new mobileTurretSubsystem(new MobileTurretIOReal());
+                m_fixedTurret  = new fixedTurretSubsystem(new FixedTurretIOReal());
+                m_climber      = new climberSubsystem(new ClimberIOReal());
+            }
+
+            case SIM -> {
+                m_intake       = new intakeSubsystem(new IntakeIOSim());
+                m_indexer      = new IndexerSubsystem(new IndexerIOSim());
+                m_feeder       = new feederSubsystem(new FeederIOSim());
+                m_mobileTurret = new mobileTurretSubsystem(new MobileTurretIOSim());
+                m_fixedTurret  = new fixedTurretSubsystem(new FixedTurretIOSim());
+                m_climber      = new climberSubsystem(new ClimberIOSim());
+            }
+
+            default -> { // REPLAY — IO no-op, subsistema corre sobre logs
+                m_intake       = new intakeSubsystem(new IntakeIO() {});
+                m_indexer      = new IndexerSubsystem(new IndexerIO() {});
+                m_feeder       = new feederSubsystem(new FeederIO() {});
+                m_mobileTurret = new mobileTurretSubsystem(new MobileTurretIO() {});
+                m_fixedTurret  = new fixedTurretSubsystem(new FixedTurretIO() {});
+                m_climber      = new climberSubsystem(new ClimberIO() {});
+            }
+        }
+
+        // ── Superstructure (usa los subsistemas ya construidos) ───────────────
+        m_super = new SuperstructureCommand(
+            m_intake, m_indexer, m_feeder, m_mobileTurret, m_fixedTurret, m_climber, m_vision,
+            () -> m_mechCtrl.getRawAxis(1)
+        );
+
+        // ── Programar SuperstructureCommand perpetuo ──────────────────────────
         m_super.schedule();
 
-        // Homing al inicio (todos en paralelo)
+        // ── Homing al inicio (todos en paralelo) ──────────────────────────────
         Commands.parallel(
             m_intake.homingCommand(),
             m_mobileTurret.homeAllCommand(),

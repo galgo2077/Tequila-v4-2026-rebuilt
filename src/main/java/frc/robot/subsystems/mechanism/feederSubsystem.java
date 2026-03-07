@@ -3,93 +3,70 @@ package frc.robot.subsystems.mechanism;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import frc.robot.Constants.CurrentLimits;
 import frc.robot.Constants.FeederConstants;
+import frc.robot.subsystems.mechanism.io.FeederIO;
+import frc.robot.subsystems.mechanism.io.FeederIO.FeederIOInputs;
 import java.util.function.BooleanSupplier;
 
+/**
+ * Feeder subsystem — kicker wheel that pre-accelerates game pieces before
+ * they reach the shooters.
+ *
+ * Hardware is fully abstracted through FeederIO. Inject FeederIOReal on the
+ * robot or FeederIOSim during simulation/replay.
+ */
 public class feederSubsystem extends SubsystemBase {
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // LÍMITES DE CORRIENTE
-    // ─────────────────────────────────────────────────────────────────────────
-    // ─────────────────────────────────────────────────────────────────────────
-    // MOTOR
-    // ─────────────────────────────────────────────────────────────────────────
-    private final TalonFX m_feederMotor = new TalonFX(FeederConstants.kFeederMotorId);
+    // ── IO layer ──────────────────────────────────────────────────────────────
+    private final FeederIO         io;
+    private final FeederIOInputs   inputs = new FeederIOInputs();
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // SEÑALES DE MONITOREO
-    // ─────────────────────────────────────────────────────────────────────────
-    private final StatusSignal<edu.wpi.first.units.measure.AngularVelocity> m_velocity = m_feederMotor.getVelocity();
-    private final StatusSignal<edu.wpi.first.units.measure.Current>         m_current  = m_feederMotor.getSupplyCurrent();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // CONSTRUCTOR
-    // ─────────────────────────────────────────────────────────────────────────
-    public feederSubsystem() {
-        TalonFXConfiguration config = new TalonFXConfiguration();
-
-        // COAST: no frenar en seco la pieza al pasar por el feeder
-        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-
-        // Stator: protege el motor si la pieza se atasca
-
-        // Supply: protege el cableado y breaker
-        config.CurrentLimits.SupplyCurrentLimit       = CurrentLimits.kMechanismSupply;
-        config.CurrentLimits.SupplyCurrentLimitEnable = CurrentLimits.kMechanismLimitEnable;
-
-        m_feederMotor.getConfigurator().apply(config);
+    // ── Constructor ───────────────────────────────────────────────────────────
+    public feederSubsystem(FeederIO io) {
+        this.io = io;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // MÉTODOS DE ACCIÓN
-    // ─────────────────────────────────────────────────────────────────────────
+    // ── Public action methods ─────────────────────────────────────────────────
+
     public void setFeederVoltage(double volts) {
-        m_feederMotor.setControl(new VoltageOut(volts));
+        io.setVoltage(volts);
     }
 
     public void stop() {
-        m_feederMotor.stopMotor();
+        io.stop();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // FACTORÍA DE COMANDOS
-    // ─────────────────────────────────────────────────────────────────────────
+    // ── Sensor accessors (read from logged inputs) ────────────────────────────
 
-    /**
-     * Activa el feeder mientras el botón esté presionado.
-     */
+    public double getVelocityRPS()    { return inputs.velocityRPS; }
+    public double getCurrentAmps()    { return inputs.supplyCurrentAmps; }
+    public boolean isConnected()      { return inputs.motorConnected; }
+
+    // ── Command factories ─────────────────────────────────────────────────────
+
+    /** Run feeder while button is held. */
     public Command runFeederCommand(BooleanSupplier feederIn) {
-        return this.run(() -> {
-            setFeederVoltage(feederIn.getAsBoolean() ? FeederConstants.kFeederSpeed * 12.0 : 0.0);
-        }).finallyDo(interrupted -> stop());
+        return this.run(() ->
+            setFeederVoltage(feederIn.getAsBoolean() ? FeederConstants.kFeederSpeed * 12.0 : 0.0)
+        ).finallyDo(interrupted -> stop());
     }
 
-    /**
-     * Activa el feeder en reversa (expulsar pieza).
-     */
+    /** Reverse feeder (eject). */
     public Command reverseFeederCommand(BooleanSupplier feederOut) {
-        return this.run(() -> {
-            setFeederVoltage(feederOut.getAsBoolean() ? -FeederConstants.kFeederSpeed * 12.0 : 0.0);
-        }).finallyDo(interrupted -> stop());
+        return this.run(() ->
+            setFeederVoltage(feederOut.getAsBoolean() ? -FeederConstants.kFeederSpeed * 12.0 : 0.0)
+        ).finallyDo(interrupted -> stop());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // PERIODIC
-    // ─────────────────────────────────────────────────────────────────────────
+    // ── Periodic ──────────────────────────────────────────────────────────────
+
     @Override
     public void periodic() {
-        m_velocity.refresh();
-        m_current.refresh();
+        io.updateInputs(inputs);
 
-        SmartDashboard.putNumber("Feeder/Velocity RPS", m_velocity.getValueAsDouble());
-        SmartDashboard.putNumber("Feeder/Current Amps", m_current.getValueAsDouble());
+        SmartDashboard.putNumber("Feeder/Velocity RPS",   inputs.velocityRPS);
+        SmartDashboard.putNumber("Feeder/Current Amps",   inputs.supplyCurrentAmps);
+        SmartDashboard.putNumber("Feeder/Applied Volts",  inputs.appliedVolts);
+        SmartDashboard.putBoolean("Feeder/Connected",     inputs.motorConnected);
     }
 }
